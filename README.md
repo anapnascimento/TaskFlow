@@ -137,7 +137,7 @@ text
 ```
 productivity-system/
 │
-├── .ai/
+├── .agent/
 │   ├── specs/
 │   ├── skills/
 │   └── tasks/
@@ -166,55 +166,55 @@ Para mais detalhes, consulte ARCHITECTURE.md.
 
 ## Documentação
 
-A documentação técnica e as especificações do projeto estão organizadas em `.ai/`.
+A documentação técnica e as especificações do projeto estão organizadas em `.agent/`.
 
 Documento
 
 Descrição
 
-`.ai/specs/project-overview.md`
+`.agent/specs/project-overview.md`
 
 Visão geral do projeto
 
-`.ai/specs/technology-stack.md`
+`.agent/specs/technology-stack.md`
 
 Tecnologias utilizadas
 
-`.ai/specs/architecture.md`
+`.agent/specs/architecture.md`
 
 Arquitetura detalhada
 
-`.ai/specs/business-rules.md`
+`.agent/specs/business-rules.md`
 
 Regras de negócio
 
-`.ai/specs/database.md`
+`.agent/specs/database.md`
 
 Modelagem e persistência
 
-`.ai/specs/api-contracts.md`
+`.agent/specs/api-contracts.md`
 
 Contratos da API
 
-`.ai/specs/security.md`
+`.agent/specs/security.md`
 
 Requisitos de segurança
 
-`.ai/specs/features/`
+`.agent/specs/features/`
 
 Especificações das funcionalidades
 
-`.ai/skills/`
+`.agent/skills/`
 
 Instruções de desenvolvimento
 
-`.ai/tasks/`
+`.agent/tasks/`
 
 Planejamento e acompanhamento das etapas
 
 ## Desenvolvimento
 
-O projeto será desenvolvido incrementalmente, seguindo o roadmap definido em `.ai/tasks/roadmap.md`.
+O projeto será desenvolvido incrementalmente, seguindo o roadmap definido em `.agent/tasks/roadmap.md`.
 
 Cada etapa deverá possuir:
 

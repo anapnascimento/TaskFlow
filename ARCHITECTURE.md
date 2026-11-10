@@ -260,7 +260,7 @@ Formato de comunicação:
 -   Content-Type: application/json.
 -   Autenticação Bearer para Access Token.
 
-Os contratos são definidos em `.ai/specs/api-contracts.md`.
+Os contratos são definidos em `.agent/specs/api-contracts.md`.
 
 ## 10. Infraestrutura
 
@@ -278,15 +278,15 @@ Configurações específicas de desenvolvimento e produção deverão permanecer
 
 As decisões arquiteturais detalhadas estão documentadas em:
 
--   `.ai/specs/architecture.md`
--   `.ai/specs/technology-stack.md`
--   `.ai/specs/database.md`
--   `.ai/specs/security.md`
--   `.ai/specs/api-contracts.md`
+-   `.agent/specs/architecture.md`
+-   `.agent/specs/technology-stack.md`
+-   `.agent/specs/database.md`
+-   `.agent/specs/security.md`
+-   `.agent/specs/api-contracts.md`
 
-As regras de negócio estão em `.ai/specs/business-rules.md`.
+As regras de negócio estão em `.agent/specs/business-rules.md`.
 
-As funcionalidades estão especificadas em `.ai/specs/features/`.
+As funcionalidades estão especificadas em `.agent/specs/features/`.
 
 ## 12. Princípios arquiteturais
 
