@@ -1,0 +1,22 @@
+CREATE TABLE tasks (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    category_id BIGINT NULL,
+    title VARCHAR(150) NOT NULL,
+    description TEXT NULL,
+    status VARCHAR(20) NOT NULL,
+    priority VARCHAR(20) NOT NULL,
+    due_date DATETIME(6) NULL,
+    completed_at DATETIME(6) NULL,
+    created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
+    deleted_at DATETIME(6) NULL,
+    CONSTRAINT fk_tasks_user FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT fk_tasks_category FOREIGN KEY (category_id) REFERENCES categories(id),
+    INDEX idx_tasks_user_id (user_id),
+    INDEX idx_tasks_user_status (user_id, status),
+    INDEX idx_tasks_user_priority (user_id, priority),
+    INDEX idx_tasks_user_due_date (user_id, due_date),
+    INDEX idx_tasks_user_category (user_id, category_id),
+    INDEX idx_tasks_user_deleted_at (user_id, deleted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
