@@ -14,7 +14,7 @@
 
 - [x] Phase 01 - Planning
 - [x] Phase 02 - Environment Setup
-- [ ] Phase 03 - Database
+- [x] Phase 03 - Database
 - [ ] Phase 04 - Authentication
 - [ ] Phase 05 - Task Management
 - [ ] Phase 06 - Dashboard and Activity History

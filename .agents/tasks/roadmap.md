@@ -72,7 +72,7 @@ Entregáveis:
 
 ### Phase 03 — Database and Persistence
 
-Status: Not Started
+Status: Completed
 
 Dependências: Phase 02
 
