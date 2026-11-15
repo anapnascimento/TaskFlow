@@ -16,7 +16,7 @@
 - [x] Phase 02 - Environment Setup
 - [x] Phase 03 - Database
 - [x] Phase 04 - Authentication
-- [ ] Phase 05 - Task Management
+- [x] Phase 05 - Task Management
 - [ ] Phase 06 - Dashboard and Activity History
 - [ ] Phase 07 - Backend Testing and Quality
 - [ ] Phase 08 - Frontend Foundation

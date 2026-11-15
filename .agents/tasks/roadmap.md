@@ -129,7 +129,7 @@ Entregáveis:
 
 ### Phase 05 — Task Management
 
-Status: Not Started
+Status: Completed
 
 Dependências: Phase 04
 
