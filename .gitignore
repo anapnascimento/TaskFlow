@@ -1,0 +1,29 @@
+# Reference & local files
+modelo-projeto.jpg
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Backend (Java / Maven)
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+*.log
+
+# Frontend (Node / Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.vite/
+frontend/coverage/
+frontend/playwright-report/
+frontend/test-results/
+
+# OS & IDEs
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
