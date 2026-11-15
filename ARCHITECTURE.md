@@ -118,7 +118,7 @@ text
 backend/
 └── src/
     ├── main/
-    │   ├── java/com/productivity/
+    │   ├── java/com/taskflow/
     │   │   ├── config/
     │   │   ├── security/
     │   │   ├── controller/
@@ -260,7 +260,7 @@ Formato de comunicação:
 -   Content-Type: application/json.
 -   Autenticação Bearer para Access Token.
 
-Os contratos são definidos em `.agent/specs/api-contracts.md`.
+Os contratos são definidos em `.agents/specs/api-contracts.md`.
 
 ## 10. Infraestrutura
 
@@ -278,15 +278,15 @@ Configurações específicas de desenvolvimento e produção deverão permanecer
 
 As decisões arquiteturais detalhadas estão documentadas em:
 
--   `.agent/specs/architecture.md`
--   `.agent/specs/technology-stack.md`
--   `.agent/specs/database.md`
--   `.agent/specs/security.md`
--   `.agent/specs/api-contracts.md`
+-   `.agents/specs/architecture.md`
+-   `.agents/specs/technology-stack.md`
+-   `.agents/specs/database.md`
+-   `.agents/specs/security.md`
+-   `.agents/specs/api-contracts.md`
 
-As regras de negócio estão em `.agent/specs/business-rules.md`.
+As regras de negócio estão em `.agents/specs/business-rules.md`.
 
-As funcionalidades estão especificadas em `.agent/specs/features/`.
+As funcionalidades estão especificadas em `.agents/specs/features/`.
 
 ## 12. Princípios arquiteturais
 

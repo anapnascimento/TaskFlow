@@ -135,9 +135,9 @@ O projeto utiliza arquitetura cliente-servidor, com frontend independente e back
 text
 
 ```
-productivity-system/
+taskflow/
 │
-├── .agent/
+├── .agents/
 │   ├── specs/
 │   ├── skills/
 │   └── tasks/
@@ -166,55 +166,24 @@ Para mais detalhes, consulte ARCHITECTURE.md.
 
 ## Documentação
 
-A documentação técnica e as especificações do projeto estão organizadas em `.agent/`.
+A documentação técnica e as especificações do projeto estão organizadas em `.agents/`.
 
-Documento
-
-Descrição
-
-`.agent/specs/project-overview.md`
-
-Visão geral do projeto
-
-`.agent/specs/technology-stack.md`
-
-Tecnologias utilizadas
-
-`.agent/specs/architecture.md`
-
-Arquitetura detalhada
-
-`.agent/specs/business-rules.md`
-
-Regras de negócio
-
-`.agent/specs/database.md`
-
-Modelagem e persistência
-
-`.agent/specs/api-contracts.md`
-
-Contratos da API
-
-`.agent/specs/security.md`
-
-Requisitos de segurança
-
-`.agent/specs/features/`
-
-Especificações das funcionalidades
-
-`.agent/skills/`
-
-Instruções de desenvolvimento
-
-`.agent/tasks/`
-
-Planejamento e acompanhamento das etapas
+| Documento | Descrição |
+| :--- | :--- |
+| `.agents/specs/project-overview.md` | Visão geral do projeto |
+| `.agents/specs/technology-stack.md` | Tecnologias utilizadas |
+| `.agents/specs/architecture.md` | Arquitetura detalhada |
+| `.agents/specs/business-rules.md` | Regras de negócio |
+| `.agents/specs/database.md` | Modelagem e persistência |
+| `.agents/specs/api-contracts.md` | Contratos da API |
+| `.agents/specs/security.md` | Requisitos de segurança |
+| `.agents/specs/features/` | Especificações das funcionalidades |
+| `.agents/skills/` | Instruções de desenvolvimento |
+| `.agents/tasks/` | Planejamento e acompanhamento das etapas |
 
 ## Desenvolvimento
 
-O projeto será desenvolvido incrementalmente, seguindo o roadmap definido em `.agent/tasks/roadmap.md`.
+O projeto será desenvolvido incrementalmente, seguindo o roadmap definido em `.agents/tasks/roadmap.md`.
 
 Cada etapa deverá possuir:
 

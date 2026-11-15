@@ -25,6 +25,11 @@ As decisões registradas aqui devem permanecer consistentes com a documentação
 | ADR-012| Flyway para migrações| Accepted| 
 | ADR-013| Estratégia de testes automatizados| Accepted| 
 | ADR-014| Docker e Docker Compose| Accepted| 
+| ADR-015| Escopo individual e referência visual (modelo-projeto.jpg)| Accepted|
+| ADR-016| Assinatura JWT com HS256, Access Token em memória e Rate Limiting| Accepted|
+| ADR-017| Fuso horário configurável por usuário com persistência em UTC| Accepted|
+| ADR-018| Lixeira de tarefas e unicidade de categorias ativas no Soft Delete| Accepted|
+| ADR-019| Recuperação de senha via log em dev e notificações in-app| Accepted|
 
 ----------
 
@@ -458,6 +463,158 @@ A containerização facilita a configuração, inicialização e integração do
 -   Segredos não deverão ser versionados.
 -   Serviços deverão possuir configurações específicas por ambiente.
 -   Persistência do MySQL deverá utilizar volumes apropriados.
+
+----------
+
+## ADR-015 — Escopo individual e referência visual (modelo-projeto.jpg)
+
+**Status:** Accepted
+
+### Contexto
+
+O repositório inclui o mockup `modelo-projeto.jpg` ilustrando uma interface de "Projects" com múltiplos membros, enquanto as especificações descrevem um sistema de produtividade pessoal individual centrado em Tarefas e Categorias.
+
+### Decisão
+
+Manter o escopo de domínio estritamente individual por usuário (Tarefas, Categorias, Dashboard, Histórico de Atividades, Lixeira e Perfil, sem entidade de Projetos e sem compartilhamento entre usuários), utilizando `modelo-projeto.jpg` exclusivamente como inspiração visual para layout, paleta de cores, cards e navegação lateral.
+
+### Alternativas consideradas
+
+-   Adicionar entidade de Projetos e compartilhamento entre equipes.
+-   Ignorar o mockup e desenhar outra identidade visual.
+
+### Justificativa
+
+Preserva o foco incremental das especificações e garante consistência visual moderna sem inflar desnecessariamente a modelagem de domínio.
+
+### Consequências
+
+-   Sidebar e cards do frontend adaptam o estilo de `modelo-projeto.jpg` aos módulos reais do TaskFlow.
+-   O isolamento multiusuário permanece total e sem relacionamentos de compartilhamento.
+
+----------
+
+## ADR-016 — Assinatura JWT com HS256, Access Token em memória e Rate Limiting
+
+**Status:** Accepted
+
+### Contexto
+
+Havia definições pendentes entre `HS256` e `RS256`, armazenamento do Access Token no frontend, proteção CSRF, sessões simultâneas e Rate Limiting de login.
+
+### Decisão
+
+Adotar:
+
+-   JWT assinado com `HS256` (`HMAC-SHA256`) usando `JWT_SECRET` (mínimo 256 bits via variável de ambiente).
+-   Access Token (15 minutos) armazenado apenas em memória no frontend e renovado silenciosamente via `/api/v1/auth/refresh` ao recarregar a página.
+-   Refresh Token opaco (7 dias) em cookie `refresh_token` (`HttpOnly`, `SameSite=Lax`, `Path=/api/v1/auth`, `Secure` em produção).
+-   Múltiplas sessões simultâneas por usuário (uma família de tokens por login/dispositivo), com revogação global ao alterar/redefinir senha ou excluir a conta.
+-   Rate Limiting em memória no endpoint de login (máximo de 5 falhas em 15 minutos por e-mail/IP, retornando HTTP `429`).
+
+### Alternativas consideradas
+
+-   Assinatura assimétrica `RS256` com par de chaves RSA.
+-   Armazenamento do Access Token em `sessionStorage` ou token CSRF separado.
+
+### Justificativa
+
+`HS256` é mais simples e adequado a um monolito backend único com validação local, enquanto manter o Access Token apenas em memória reduz a superfície de ataque contra XSS.
+
+### Consequências
+
+-   O segredo `JWT_SECRET` deve ser gerenciado exclusivamente por variáveis de ambiente.
+-   A arquitetura de autenticação não exige armazenamento em navegador para Access Tokens.
+
+----------
+
+## ADR-017 — Fuso horário configurável por usuário com persistência em UTC
+
+**Status:** Accepted
+
+### Contexto
+
+A `ADR-011` definiu persistência em UTC, mas faltava definir o fuso horário utilizado nos agrupamentos diários do Dashboard e os limites de tamanho/concorrência.
+
+### Decisão
+
+-   Persistir todos os instantes como `DATETIME` em UTC (`Instant` no Java).
+-   Adicionar a coluna `timezone` (`VARCHAR(64)`, padrão `America/Sao_Paulo`) na tabela `users`, enviada pelo navegador no cadastro e editável no perfil, para agrupar conclusões diárias no Dashboard.
+-   Definir limites explícitos de campos (`task.title`: 150, `task.description`: 5000, `category.name`: 50, `user.name`: 100, `email`: 255), sem cota máxima de tarefas por usuário (paginação máxima de 100 itens por página) e estratégia de concorrência Last-Write-Wins com `updated_at`.
+
+### Alternativas consideradas
+
+-   Usar fuso horário fixo no servidor sem preferência por usuário.
+-   Implementar Optimistic Locking (`@Version`) na fase inicial.
+
+### Justificativa
+
+Respeita usuários em diferentes fusos sem complexidade excessiva no modelo de dados e garante previsibilidade nas validações entre frontend e backend.
+
+### Consequências
+
+-   Endpoints de autenticação e perfil retornam e aceitam o campo `timezone`.
+-   Consultas de série temporal no Dashboard utilizam o `timezone` do usuário autenticado.
+
+----------
+
+## ADR-018 — Lixeira de tarefas e unicidade de categorias ativas no Soft Delete
+
+**Status:** Accepted
+
+### Contexto
+
+Era necessário fechar como os usuários recuperariam tarefas excluídas logicamente, o comportamento das tarefas ao excluir uma categoria e a restrição de unicidade no MySQL com Soft Delete.
+
+### Decisão
+
+-   Disponibilizar visualização/filtro de Lixeira (`deleted=true`) para listar e restaurar tarefas excluídas logicamente.
+-   Ao excluir logicamente uma categoria, desassociar (`category_id = NULL`) todas as tarefas vinculadas (ativas e na Lixeira) na mesma transação.
+-   Garantir unicidade do nome de categoria apenas entre categorias ativas (`deleted_at IS NULL`) utilizando índice único funcional no MySQL 8.4 (`UNIQUE INDEX uk_categories_user_active_name`) e validação no Service.
+-   Aplicar Soft Delete também para contas de usuário (`users.deleted_at`), revogando sessões e bloqueando novos logins, além de retenção indefinida em `activity_logs` com consulta paginada via `GET /api/v1/activity-logs`.
+
+### Alternativas consideradas
+
+-   Soft Delete sem tela de Lixeira (apenas toast temporário).
+-   Exclusão física em cascata de contas e categorias.
+
+### Justificativa
+
+Permite recriar categorias com nomes anteriormente excluídos sem conflitos no banco e oferece recuperação real de tarefas sem comprometer a integridade referencial nem o histórico.
+
+### Consequências
+
+-   Restaurar uma categoria exige validar ausência de conflito com outra categoria ativa de mesmo nome.
+-   Migrations MySQL devem usar índice funcional compatível com MySQL 8.4 LTS.
+
+----------
+
+## ADR-019 — Recuperação de senha via log em dev e notificações in-app
+
+**Status:** Accepted
+
+### Contexto
+
+Faltava alinhar a persistência e entrega da recuperação de senha em desenvolvimento, bem como o escopo das notificações de vencimento.
+
+### Decisão
+
+-   Incluir a entidade/tabela `password_reset_tokens` (`V6__create_password_reset_tokens.sql`) com tokens de uso único e validade de 30 minutos; em ambiente de desenvolvimento, o link/token é registrado no log estruturado do backend (sem servidor SMTP externo).
+-   Implementar notificações estritamente in-app no sino do topo da interface para tarefas que vencem em até 24 horas (`DUE_SOON`) e tarefas vencidas (`OVERDUE`), deduplicadas por `(taskId, alertType)`.
+
+### Alternativas consideradas
+
+-   Adicionar container SMTP local (Mailpit) no Docker Compose.
+-   Enviar notificações por e-mail ou removê-las completamente.
+
+### Justificativa
+
+Mantém o fluxo completo de recuperação de senha e alertas de prazo funcional e testável localmente sem adicionar infraestrutura de e-mail desnecessária nesta etapa.
+
+### Consequências
+
+-   O backend deve garantir que tokens de recuperação nunca sejam emitidos em logs de produção.
+-   O frontend mantém estado de leitura/dispensa deduplicado para os alertas exibidos no sino.
 
 ----------
 
