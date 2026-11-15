@@ -40,7 +40,7 @@ Entregáveis:
 
 ### Phase 02 — Environment Setup
 
-Status: In Progress (pendente iniciar Docker Desktop para validar subida dos containers e comunicação backend-MySQL)
+Status: Completed
 
 Dependências: Phase 01
 

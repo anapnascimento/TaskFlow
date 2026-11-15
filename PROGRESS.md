@@ -13,7 +13,7 @@
 ## Development
 
 - [x] Phase 01 - Planning
-- [ ] Phase 02 - Environment Setup (em andamento: código e Docker Compose criados; pendente subir Docker Desktop para validar MySQL)
+- [x] Phase 02 - Environment Setup
 - [ ] Phase 03 - Database
 - [ ] Phase 04 - Authentication
 - [ ] Phase 05 - Task Management
