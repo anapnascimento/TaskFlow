@@ -15,7 +15,7 @@
 - [x] Phase 01 - Planning
 - [x] Phase 02 - Environment Setup
 - [x] Phase 03 - Database
-- [ ] Phase 04 - Authentication
+- [x] Phase 04 - Authentication
 - [ ] Phase 05 - Task Management
 - [ ] Phase 06 - Dashboard and Activity History
 - [ ] Phase 07 - Backend Testing and Quality
